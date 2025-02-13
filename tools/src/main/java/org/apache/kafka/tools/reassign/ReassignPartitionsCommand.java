@@ -54,10 +54,6 @@ import org.apache.kafka.tools.AdminOperationException;
 import org.apache.kafka.tools.TerseException;
 import org.apache.kafka.tools.ToolsUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -573,7 +569,7 @@ public class ReassignPartitionsCommand {
         Map<TopicPartition, List<Integer>> currentParts = toReplicaIds(currentAssignments);
         Map<TopicPartition, List<Integer>> proposedAssignments;
         if (sticky) {
-           final StickyPartitionReassignor assignor = new StickyPartitionReassignor(currentParts, usableBrokers);
+            final StickyPartitionReassignor assignor = new StickyPartitionReassignor(currentParts, usableBrokers);
             proposedAssignments = assignor.reassign();
         } else {
             proposedAssignments = calculateAssignment(currentParts, usableBrokers);
