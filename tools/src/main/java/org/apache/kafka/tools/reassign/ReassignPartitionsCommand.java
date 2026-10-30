@@ -54,6 +54,10 @@ import org.apache.kafka.tools.AdminOperationException;
 import org.apache.kafka.tools.TerseException;
 import org.apache.kafka.tools.ToolsUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -553,10 +557,10 @@ public class ReassignPartitionsCommand {
      *                              current assignment.
      */
     public static Entry<Map<TopicPartition, List<Integer>>, Map<TopicPartition, List<Integer>>> generateAssignment(Admin adminClient,
-                                                                                                                   String reassignmentJson,
-                                                                                                                   String brokerListString,
-                                                                                                                   boolean enableRackAwareness,
-                                                                                                                   boolean sticky
+                                                                                                             String reassignmentJson,
+                                                                                                             String brokerListString,
+                                                                                                             Boolean enableRackAwareness,
+                                                                                                             Boolean sticky
     ) throws ExecutionException, InterruptedException, JsonProcessingException {
         Entry<List<Integer>, List<String>> t0 = parseGenerateAssignmentArgs(reassignmentJson, brokerListString);
 
@@ -589,7 +593,7 @@ public class ReassignPartitionsCommand {
      *
      * @return                   A map from partitions to the proposed assignments for each.
      */
-    private static Map<TopicPartition, List<Integer>> calculateAssignment(Map<TopicPartition, List<Integer>> currentAssignment,
+    static Map<TopicPartition, List<Integer>> calculateAssignment(Map<TopicPartition, List<Integer>> currentAssignment,
                                                                           List<UsableBroker> usableBrokers) {
         Map<String, List<Entry<TopicPartition, List<Integer>>>> groupedByTopic = new HashMap<>();
         for (Entry<TopicPartition, List<Integer>> e : currentAssignment.entrySet())

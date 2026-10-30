@@ -449,7 +449,7 @@ public class ReassignPartitionsUnitTest {
     public void testGenerateStickyAssignmentWithFewerBrokers() throws Exception {
         try (MockAdminClient adminClient = new MockAdminClient.Builder().numBrokers(4).build()) {
             addTopics(adminClient);
-            List<Integer> goalBrokers = asList(0, 1, 3);
+            List<Integer> goalBrokers = List.of(0, 1, 3);
 
             Entry<Map<TopicPartition, List<Integer>>, Map<TopicPartition, List<Integer>>>
                     proposedCurrent = generateAssignment(adminClient,
@@ -458,9 +458,9 @@ public class ReassignPartitionsUnitTest {
 
             Map<TopicPartition, List<Integer>> expCurrent = new HashMap<>();
 
-            expCurrent.put(new TopicPartition("foo", 0), asList(0, 1, 2));
-            expCurrent.put(new TopicPartition("foo", 1), asList(1, 2, 3));
-            expCurrent.put(new TopicPartition("bar", 0), asList(2, 3, 0));
+            expCurrent.put(new TopicPartition("foo", 0), List.of(0, 1, 2));
+            expCurrent.put(new TopicPartition("foo", 1), List.of(1, 2, 3));
+            expCurrent.put(new TopicPartition("bar", 0), List.of(2, 3, 0));
 
             assertEquals(expCurrent, proposedCurrent.getValue());
 
